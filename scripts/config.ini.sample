@@ -1,0 +1,14 @@
+[base]
+
+[redis]
+host=127.0.0.1
+port=6379
+password=
+db=3
+
+[mysql]
+host = 192.168.0.190
+port = 13306
+database = oauth
+user = xjroot
+password = DgyE1ZHdMT5x

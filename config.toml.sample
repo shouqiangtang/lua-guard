@@ -1,0 +1,17 @@
+[oauth2]
+token_salt = "90ad21e6-3bd4-451a-b53f-568f0676deb4"
+# grant_type = client_credential, 同一个client每小时可申请多少token
+client_credential_max_attempt_per_hour = 50
+# grant_type = password, 同一个用户每天可申请多少token
+password_max_attempt_per_day = 50
+# 同一设备每分钟可查询多少次userinfo接口
+tokeninfo_client_max_attempt_per_minute = 100
+# 同一用户每分钟可查询多少次userinfo接口
+tokeninfo_user_max_attempt_per_minute = 50
+
+[redis]
+  [redis.account]
+  host = "127.0.0.1"
+  port = 6379
+  auth = ""
+  db   = 2

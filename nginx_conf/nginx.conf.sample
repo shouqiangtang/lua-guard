@@ -1,0 +1,38 @@
+worker_processes 2;
+
+error_log logs/error.log;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+
+    # $prefix为项目根目录,即ngx.config.prefix(),它可能是由 Nginx 启动时通过可选 -p 命令行确定的，
+    # 也可能是由编译 Nginx 的 ./configure 脚本中可选的 --prefix 命令行参数确定的。
+    # https://github.com/iresty/nginx-lua-module-zh-wiki#ngxconfigprefix
+    lua_package_path '$prefix/lua/?.lua;;';
+
+    lua_shared_dict guard 10m;
+
+    #	对于开发研究,可以对代码cache进行关闭,这样不必每次都重新加载nginx。
+    lua_code_cache off;
+
+    server {
+        listen 15401;
+
+        location /v1/oauth2/access_token {
+            access_by_lua_file lua/rules/access_token.lua;
+            proxy_pass http://127.0.0.1:5401;
+        }
+
+        location /v1/oauth2/userinfo {
+            access_by_lua_file lua/rules/userinfo.lua;
+            proxy_pass http://127.0.0.1:5401;
+        }
+
+        location / {
+            proxy_pass http://127.0.0.1:5401;
+        }
+    }
+}
